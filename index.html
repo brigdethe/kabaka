@@ -3,6 +3,32 @@
 
 <head>
 	<meta charset="utf-8" />
+	<style>
+		html.kabaka-loading { overflow: hidden; }
+		.kabaka-loading .page-wrapper { visibility: hidden; }
+		.kabaka-loading .kabaka-loader { opacity: 1; visibility: visible; }
+		.kabaka-loader {
+			position: fixed; inset: 0; z-index: 10000; display: flex;
+			flex-direction: column; align-items: center; justify-content: center;
+			gap: 24px; background: #000; color: #fff;
+			opacity: 0; visibility: hidden; pointer-events: none;
+			transition: opacity .3s ease, visibility .3s;
+		}
+		.kabaka-loading .kabaka-loader { pointer-events: auto; }
+		.kabaka-loader img { width: min(240px, 65vw); height: auto; filter: brightness(0) invert(1); }
+		.kabaka-loader__track { width: 120px; height: 2px; overflow: hidden; background: #ffffff40; }
+		.kabaka-loader__track::after {
+			content: ''; display: block; width: 40%; height: 100%; background: #fff;
+			animation: kabaka-loading 1.2s ease-in-out infinite alternate;
+		}
+		.kabaka-loader__label { font: 14px/1.5 sans-serif; margin: 0; }
+		@keyframes kabaka-loading { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+		@media (prefers-reduced-motion: reduce) {
+			.kabaka-loader { transition: none; }
+			.kabaka-loader__track::after { animation: none; width: 100%; }
+		}
+	</style>
+	<script src="preloader.js"></script>
 	<title>Kabaka Plaza - A unique place to chill in Greater Accra</title>
 	<meta content="A unique space where shopping, dining, and leisure come together to create something more than just a visit. Experience greatness at Kabaka Plaza."
 		name="description" />
@@ -77,21 +103,10 @@
 			</div>
 		</div>
 	</div>
-	<div data-load-wrap class="loader">
-		<div data-load-bg class="loader__bg">
-			<div data-load-progress-top class="loader__bg-bar is--top"></div>
-			<div data-load-progress-bottom class="loader__bg-bar is--bottom"></div>
-			<div data-load-progress-left class="loader__bg-bar is--left"></div>
-			<div data-load-progress-right class="loader__bg-bar is--right"></div>
-			<div data-load-gradient class="loader__bg-gradient"></div>
-		</div>
-		<div data-load-container class="loader__container">
-			<div class="loader__logo-wrap">
-				<div data-load-logo class="loader__logo-item is--base">
-					<img src="https://ik.imagekit.io/dr5fryhth/kabaka/logo.png" alt="Logo" class="loader__logo-img" />
-				</div>
-			</div>
-		</div>
+	<div class="kabaka-loader" role="status" aria-label="Loading Kabaka Plaza">
+		<img src="https://ik.imagekit.io/dr5fryhth/kabaka/logo.png" alt="Kabaka Plaza" fetchpriority="high" />
+		<div class="kabaka-loader__track" aria-hidden="true"></div>
+		<p class="kabaka-loader__label">Welcome to Kabaka</p>
 	</div>
 	<div class="page-wrapper">
 		<div class="main-wrapper">
@@ -254,7 +269,7 @@
 					<div data-parallax-disable="tablet" data-parallax="trigger" data-parallax-start="0"
 						data-parallax-end="40" data-parallax-scrub="0" data-parallax-scroll-start="top top"
 						data-parallax-scroll-end="bottom top" class="parallax-image">
-						<video src="https://goshop-images.lon1.cdn.digitaloceanspaces.com/kabaka/salon" autoplay muted
+						<video src="https://goshop-images.lon1.cdn.digitaloceanspaces.com/kabaka/salon" poster="https://ik.imagekit.io/dr5fryhth/kabaka/bigimage" preload="auto" autoplay muted
 							loop playsinline style="width: 100%; height: 100%; object-fit: cover;"
 							class="parallax-image__img"></video>
 					</div>
